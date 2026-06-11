@@ -31,7 +31,6 @@
       -webkit-font-smoothing: antialiased;
     }
 
-    /* Layout */
     .wrap {
       min-height: 100%;
       display: grid;
@@ -52,7 +51,7 @@
       align-items: center;
       justify-content: space-between;
       gap: 12px;
-      margin-bottom: 22px;
+      margin-bottom: 20px;
     }
     .header h1 {
       font-size: 22px;
@@ -70,7 +69,34 @@
     }
     .reset:hover { background: #f9fafb; }
 
-    /* Sections */
+    .tabs {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 22px;
+      background: #f3f4f6;
+      padding: 6px;
+      border-radius: 14px;
+    }
+    .tab {
+      flex: 1;
+      border: 0;
+      background: transparent;
+      color: #4b5563;
+      padding: 10px 8px;
+      border-radius: 10px;
+      font-weight: 700;
+      font-size: 14px;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+    .tab.active {
+      background: #fff;
+      color: #0b1220;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+    }
+    .panel { display: none; }
+    .panel.open { display: block; }
+
     .section + .section { margin-top: 22px; }
     .section-title {
       font-size: 12px;
@@ -80,8 +106,6 @@
       letter-spacing: 0.6px;
       margin-bottom: 12px;
     }
-
-    /* Grid form */
     .grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -92,8 +116,6 @@
       .card { padding: 20px 16px 18px; }
       .header h1 { font-size: 20px; }
     }
-
-    /* Inputs */
     label {
       display: block;
       font-size: 13px;
@@ -117,8 +139,6 @@
       border-color: var(--primary);
       box-shadow: 0 0 0 4px var(--primary-weak);
     }
-
-    /* Output rows */
     .output {
       margin-top: 14px;
       padding: 14px 16px;
@@ -140,12 +160,8 @@
       color: #0b1220;
       word-break: break-word;
     }
-    .output.empty .value {
-      color: #9ca3af;
-      font-weight: 600;
-    }
+    .output.empty .value { color: #9ca3af; font-weight: 600; }
 
-    /* Result panel */
     .result {
       margin-top: 22px;
       padding: 18px 18px 16px;
@@ -173,59 +189,119 @@
         <button class="reset" id="resetBtn" type="button">Reset</button>
       </div>
 
-      <!-- AWAL -->
-      <div class="section">
-        <div class="section-title">Pembelian Awal</div>
-        <div class="grid">
-          <div>
-            <label for="nominalAwal">Nominal Awal (Rp)</label>
-            <input id="nominalAwal" type="number" inputmode="numeric" min="0" step="1" placeholder="0" />
+      <div class="tabs">
+        <button class="tab active" data-tab="tab1" type="button">Tab 1</button>
+        <button class="tab" data-tab="tab2" type="button">Tab 2</button>
+      </div>
+
+      <div class="panel open" id="tab1">
+        <div class="section">
+          <div class="section-title">Pembelian Awal</div>
+          <div class="grid">
+            <div>
+              <label for="nominalAwal">Nominal Awal (Rp)</label>
+              <input id="nominalAwal" type="number" inputmode="numeric" min="0" step="1" placeholder="0" />
+            </div>
+            <div>
+              <label for="lotAwal">Lot Awal</label>
+              <input id="lotAwal" type="number" inputmode="numeric" min="0" step="1" placeholder="0" />
+            </div>
           </div>
-          <div>
-            <label for="lotAwal">Lot Awal</label>
-            <input id="lotAwal" type="number" inputmode="numeric" min="0" step="1" placeholder="0" />
+          <div class="output" id="avgAwalBox">
+            <div class="label">AVG Awal</div>
+            <div class="value empty" id="avgAwal">—</div>
           </div>
         </div>
-        <div class="output" id="avgAwalBox">
-          <div class="label">AVG Awal</div>
-          <div class="value empty" id="avgAwal">—</div>
+
+        <div class="section">
+          <div class="section-title">Pembelian Tambah</div>
+          <div class="grid">
+            <div>
+              <label for="hargaTambah">Harga Tambah (Rp)</label>
+              <input id="hargaTambah" type="number" inputmode="numeric" min="0" step="1" placeholder="0" />
+            </div>
+            <div>
+              <label for="lotTambah">Lot Tambah</label>
+              <input id="lotTambah" type="number" inputmode="numeric" min="0" step="1" placeholder="0" />
+            </div>
+          </div>
+          <div class="output" id="nominalTambahBox">
+            <div class="label">Nominal Tambah</div>
+            <div class="value empty" id="nominalTambah">—</div>
+          </div>
+        </div>
+
+        <div class="section">
+          <div class="section-title">Hasil Akhir</div>
+          <div class="result">
+            <div class="result-row">
+              <div class="result-label">Nominal Akhir</div>
+              <div class="result-value" id="nominalAkhir">Rp 0</div>
+            </div>
+            <div class="result-row">
+              <div class="result-label">Lot Akhir</div>
+              <div class="result-value" id="lotAkhir">0 lot</div>
+            </div>
+            <div class="result-row">
+              <div class="result-label">AVG Akhir</div>
+              <div class="result-value" id="avgAkhir">Rp 0</div>
+            </div>
+          </div>
         </div>
       </div>
 
-      <!-- TAMBAH -->
-      <div class="section">
-        <div class="section-title">Pembelian Tambah</div>
-        <div class="grid">
-          <div>
-            <label for="hargaTambah">Harga Tambah (Rp)</label>
-            <input id="hargaTambah" type="number" inputmode="numeric" min="0" step="1" placeholder="0" />
+      <div class="panel" id="tab2">
+        <div class="section">
+          <div class="section-title">Data Awal</div>
+          <div class="grid">
+            <div>
+              <label for="nominalAwal2">Nominal Awal (Rp)</label>
+              <input id="nominalAwal2" type="number" inputmode="numeric" min="0" step="1" placeholder="0" />
+            </div>
+            <div>
+              <label for="lotAwal2">Lot Awal</label>
+              <input id="lotAwal2" type="number" inputmode="numeric" min="0" step="1" placeholder="0" />
+            </div>
           </div>
-          <div>
-            <label for="lotTambah">Lot Tambah</label>
-            <input id="lotTambah" type="number" inputmode="numeric" min="0" step="1" placeholder="0" />
+          <div class="output" id="avgAwalBox2">
+            <div class="label">AVG Awal</div>
+            <div class="value empty" id="avgAwal2">—</div>
           </div>
         </div>
-        <div class="output" id="nominalTambahBox">
-          <div class="label">Nominal Tambah</div>
-          <div class="value empty" id="nominalTambah">—</div>
-        </div>
-      </div>
 
-      <!-- HASIL AKHIR -->
-      <div class="section">
-        <div class="section-title">Hasil Akhir</div>
-        <div class="result">
-          <div class="result-row">
-            <div class="result-label">Nominal Akhir</div>
-            <div class="result-value" id="nominalAkhir">Rp 0</div>
+        <div class="section">
+          <div class="section-title">Target & Harga Beli Sekarang</div>
+          <div class="grid">
+            <div>
+              <label for="avgAkhir2">AVG Akhir (Rp)</label>
+              <input id="avgAkhir2" type="number" inputmode="numeric" min="0" step="1" placeholder="0" />
+            </div>
+            <div>
+              <label for="hargaTambah2">Harga Tambah (Rp)</label>
+              <input id="hargaTambah2" type="number" inputmode="numeric" min="0" step="1" placeholder="0" />
+            </div>
           </div>
-          <div class="result-row">
-            <div class="result-label">Lot Akhir</div>
-            <div class="result-value" id="lotAkhir">0 lot</div>
-          </div>
-          <div class="result-row">
-            <div class="result-label">AVG Akhir</div>
-            <div class="result-value" id="avgAkhir">Rp 0</div>
+        </div>
+
+        <div class="section">
+          <div class="section-title">Hasil Perhitungan</div>
+          <div class="result">
+            <div class="result-row">
+              <div class="result-label">Nominal Tambah</div>
+              <div class="result-value" id="nominalTambah2">Rp 0</div>
+            </div>
+            <div class="result-row">
+              <div class="result-label">Lot Tambah</div>
+              <div class="result-value" id="lotTambah2">0 lot</div>
+            </div>
+            <div class="result-row">
+              <div class="result-label">Lot Akhir</div>
+              <div class="result-value" id="lotAkhir2">0 lot</div>
+            </div>
+            <div class="result-row">
+              <div class="result-label">Nominal Akhir</div>
+              <div class="result-value" id="nominalAkhir2">Rp 0</div>
+            </div>
           </div>
         </div>
       </div>
@@ -233,6 +309,17 @@
   </div>
 
   <script>
+    const tabs = document.querySelectorAll('.tab');
+    const panels = document.querySelectorAll('.panel');
+    tabs.forEach((tab) => {
+      tab.addEventListener('click', () => {
+        tabs.forEach((t) => t.classList.remove('active'));
+        panels.forEach((p) => p.classList.remove('open'));
+        tab.classList.add('active');
+        document.getElementById(tab.dataset.tab).classList.add('open');
+      });
+    });
+
     const nominalAwal = document.getElementById('nominalAwal');
     const lotAwal = document.getElementById('lotAwal');
     const hargaTambah = document.getElementById('hargaTambah');
@@ -251,7 +338,6 @@
       if (!Number.isFinite(n)) return 'Rp 0';
       return 'Rp ' + Math.round(n).toLocaleString('id-ID');
     };
-
     const setBox = (box, el, text, filled) => {
       el.textContent = text;
       if (filled) {
@@ -274,34 +360,111 @@
 
       const lembarTambah = lt * 100;
       const nomT = ht * lembarTambah;
-
       const nomAkhir = na + nomT;
       const lotAkhir = la + lt;
-      const lembarAkhir = lotAkhir * 100;
-      const avgAkhir = lembarAkhir > 0 ? nomAkhir / lembarAkhir : 0;
+      const avgAkhir = (lotAkhir * 100) > 0 ? nomAkhir / (lotAkhir * 100) : 0;
 
       const hasAwal = (nominalAwal.value !== '') && (lotAwal.value !== '');
       const hasTambah = (hargaTambah.value !== '') && (lotTambah.value !== '');
 
       setBox(avgAwalBox, avgAwalEl, hasAwal && avgA > 0 ? fmt(avgA) : '—', hasAwal && avgA > 0);
-
       const tampilkanNominalTambah = hasTambah && nomT > 0;
       setBox(nominalTambahBox, nominalTambahEl, tampilkanNominalTambah ? fmt(nomT) : '—', tampilkanNominalTambah);
-
       nominalAkhirEl.textContent = fmt(nomAkhir);
       lotAkhirEl.textContent = lotAkhir + ' lot';
       avgAkhirEl.textContent = fmt(avgAkhir);
+    };
+
+    const calc2 = () => {
+      const na = parseFloat(nominalAwal2.value) || 0;
+      const la = parseFloat(lotAwal2.value) || 0;
+      const targetAvg = parseFloat(avgAkhir2.value) || 0;
+      const ht = parseFloat(hargaTambah2.value) || 0;
+
+      const lembarAwal = la * 100;
+      const avgA = lembarAwal > 0 ? na / lembarAwal : 0;
+      const setBox3 = (el, text) => {
+        el.textContent = text;
+        el.classList.remove('empty');
+        el.parentElement.classList.remove('empty');
+      };
+      const clear3 = (el) => {
+        el.textContent = '—';
+        el.classList.add('empty');
+        el.parentElement.classList.add('empty');
+      };
+
+      if (nominalAwal2.value !== '' && lotAwal2.value !== '' && avgA > 0) {
+        setBox3(avgAwal2, fmt(avgA));
+      } else {
+        clear3(avgAwal2);
+      }
+
+      if (
+        nominalAwal2.value === '' || lotAwal2.value === '' ||
+        avgAkhir2.value === '' || hargaTambah2.value === '' ||
+        targetAvg <= 0 || ht <= 0 || avgA <= 0
+      ) {
+        nominalTambah2.textContent = 'Rp 0';
+        nominalTambah2.classList.add('empty');
+        nominalTambah2.parentElement.classList.add('empty');
+
+        lotTambah2.textContent = '0 lot';
+        lotTambah2.classList.add('empty');
+        lotTambah2.parentElement.classList.add('empty');
+
+        lotAkhir2.textContent = '0 lot';
+        lotAkhir2.classList.add('empty');
+        lotAkhir2.parentElement.classList.add('empty');
+
+        nominalAkhir2.textContent = 'Rp 0';
+        nominalAkhir2.classList.add('empty');
+        nominalAkhir2.parentElement.classList.add('empty');
+        return;
+      }
+
+      const targetNominal = targetAvg * (na / avgA);
+      const nominalTambah = targetNominal - na;
+      const lotTambahan = nominalTambah / (ht * 100);
+      const lotAkhir = la + lotTambahan;
+      const nominalAkhir = na + nominalTambah;
+
+      nominalTambah2.textContent = fmt(nominalTambah);
+      nominalTambah2.classList.remove('empty');
+      nominalTambah2.parentElement.classList.remove('empty');
+
+      lotTambah2.textContent = lotTambahan + ' lot';
+      lotTambah2.classList.remove('empty');
+      lotTambah2.parentElement.classList.remove('empty');
+
+      lotAkhir2.textContent = lotAkhir + ' lot';
+      lotAkhir2.classList.remove('empty');
+      lotAkhir2.parentElement.classList.remove('empty');
+
+      nominalAkhir2.textContent = fmt(nominalAkhir);
+      nominalAkhir2.classList.remove('empty');
+      nominalAkhir2.parentElement.classList.remove('empty');
     };
 
     const reset = () => {
       [nominalAwal, lotAwal, hargaTambah, lotTambah].forEach((el) => { el.value = ''; });
       calc();
     };
+    const reset2 = () => {
+      [nominalAwal2, lotAwal2, avgAkhir2, hargaTambah2].forEach((el) => { el.value = ''; });
+      calc2();
+    };
 
-    [nominalAwal, lotAwal, hargaTambah, lotTambah].forEach((el) => {
-      el.addEventListener('input', calc);
+    [nominalAwal, lotAwal, hargaTambah, lotTambah].forEach((el) => el.addEventListener('input', calc));
+
+    [nominalAwal2, lotAwal2, avgAkhir2, hargaTambah2].forEach((el) =>
+      el.addEventListener('input', calc2)
+    );
+
+    resetBtn.addEventListener('click', () => {
+      reset();
+      reset2();
     });
-    resetBtn.addEventListener('click', reset);
   </script>
 </body>
 </html>
