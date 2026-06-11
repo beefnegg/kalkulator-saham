@@ -466,12 +466,12 @@
       calc();
     };
     const reset3 = () => {
-      [nominalAwal3, lotAwal3, hargaTambah3, lotTambah3].forEach((el) => { el.value = ''; });
+      [nominalAwal3, lotAwal3, hargaTambah3, avgAkhirInput3].forEach((el) => { el.value = ''; });
       calc3();
     };
 
     [nominalAwal, lotAwal, hargaTambah, lotTambah].forEach((el) => el.addEventListener('input', calc));
-    [nominalAwal3, lotAwal3, hargaTambah3, lotTambah3].forEach((el) => el.addEventListener('input', calc3));
+    [nominalAwal3, lotAwal3, hargaTambah3, avgAkhirInput3].forEach((el) => el.addEventListener('input', calc3));
 
     resetBtn.addEventListener('click', () => {
       reset();
