@@ -6,136 +6,194 @@
   <title>Kalkulator Saham</title>
   <style>
     :root {
-      --bg: #f4f6fb;
+      --bg: #f3f4f6;
       --card: #ffffff;
       --text: #111827;
       --muted: #6b7280;
       --border: #e5e7eb;
-      --primary: #2563eb;
-      --primary-weak: #dbeafe;
+      --primary: #4f46e5;
+      --primary-weak: #eef2ff;
       --success-bg: #f0fdf4;
       --success-border: #bbf7d0;
       --success-text: #065f46;
-      --shadow: 0 10px 30px rgba(15, 23, 42, 0.08);
-      --radius: 18px;
+      --shadow: 0 20px 60px rgba(15, 23, 42, 0.08);
+      --radius: 22px;
     }
+
     * { box-sizing: border-box; }
     html, body { height: 100%; }
     body {
       margin: 0;
-      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
-      background: var(--bg);
+      font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background: conic-gradient(from 180deg at 50% 0%, #eef2ff, #f3f4f6, #eef2ff);
+      background-attachment: fixed;
       color: var(--text);
       -webkit-font-smoothing: antialiased;
     }
+
     .wrap {
       min-height: 100%;
       display: grid;
       place-items: start center;
-      padding: 24px 16px 40px;
+      padding: 32px 16px 48px;
     }
+
     .card {
       width: 100%;
-      max-width: 600px;
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
-      padding: 28px 28px 24px;
+      max-width: 720px;
+      background: rgba(255, 255, 255, 0.92);
+      border: 1px solid rgba(229, 231, 235, 0.8);
+      border-radius: 26px;
+      box-shadow: 0 24px 80px rgba(15, 23, 42, 0.12);
+      backdrop-filter: blur(12px);
+      padding: 28px 26px 24px;
+      transform: translateY(0);
+      transition: transform .35s ease, box-shadow .35s ease;
     }
+
     .header {
       display: flex;
       align-items: center;
       justify-content: space-between;
       gap: 12px;
-      margin-bottom: 22px;
+      margin-bottom: 24px;
     }
+
     .header h1 {
-      font-size: 22px;
       margin: 0;
-      letter-spacing: -0.2px;
+      font-size: 22px;
+      letter-spacing: -0.3px;
     }
-    .reset {
-      border: 1px solid var(--border);
-      background: #fff;
-      color: var(--text);
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
       padding: 8px 12px;
-      border-radius: 12px;
-      cursor: pointer;
-      font-size: 14px;
+      border-radius: 999px;
+      background: #ffffff;
+      border: 1px solid rgba(229, 231, 235, 0.9);
+      box-shadow: 0 1px 0 rgba(15, 23, 42, 0.04);
+      color: #374151;
+      font-size: 13px;
+      font-weight: 600;
     }
-    .reset:hover { background: #f9fafb; }
+
+    .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 999px;
+      background: #22c55e;
+      box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.4);
+      animation: pulse 1.6s infinite;
+    }
+
+    @keyframes pulse {
+      0% { box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.5); }
+      70% { box-shadow: 0 0 0 10px rgba(34, 197, 94, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(34, 197, 94, 0); }
+    }
+
     .section + .section { margin-top: 22px; }
+
     .section-title {
       font-size: 12px;
       font-weight: 700;
       color: var(--muted);
       text-transform: uppercase;
-      letter-spacing: 0.6px;
+      letter-spacing: 0.7px;
       margin-bottom: 12px;
     }
+
     .grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 16px;
+      gap: 14px;
+      transition: all .3s ease;
     }
-    @media (max-width: 520px) {
-      .grid { grid-template-columns: 1fr; }
-      .card { padding: 20px 16px 18px; }
-      .header h1 { font-size: 20px; }
+
+    .field {
+      position: relative;
     }
-    label {
+
+    .field label {
       display: block;
       font-size: 13px;
       font-weight: 600;
       color: #374151;
-      margin-bottom: 6px;
+      margin-bottom: 8px;
     }
-    input {
+
+    .field input {
       width: 100%;
-      padding: 12px 14px;
+      padding: 12px 14px 12px 14px;
       border: 1px solid var(--border);
-      border-radius: 12px;
-      background: #fafafa;
+      border-radius: 14px;
+      background: #ffffff;
       font-size: 16px;
       color: var(--text);
       transition: 0.2s ease;
+      appearance: none;
     }
-    input:focus {
+
+    .field input:focus {
       outline: none;
-      background: #fff;
+      background: #ffffff;
       border-color: var(--primary);
       box-shadow: 0 0 0 4px var(--primary-weak);
+      transform: translateY(-1px);
     }
+
     .output {
       margin-top: 14px;
       padding: 14px 16px;
-      border: 1px solid var(--border);
-      border-radius: 14px;
-      background: #f8fafc;
+      border: 1px solid rgba(229, 231, 235, 0.9);
+      border-radius: 18px;
+      background: #ffffff;
+      transition: transform .25s ease, box-shadow .25s ease;
     }
+
+    .output.filled {
+      border-color: #c7d2fe;
+      background: #fbfdff;
+      box-shadow: 0 0 0 4px #eef2ff;
+      transform: translateY(-1px);
+    }
+
     .output .label {
       font-size: 12px;
       color: var(--muted);
-      font-weight: 600;
+      font-weight: 700;
       text-transform: uppercase;
       letter-spacing: 0.4px;
       margin-bottom: 4px;
     }
+
     .output .value {
       font-size: 18px;
       font-weight: 800;
       color: #0b1220;
       word-break: break-word;
+      transition: color .2s ease;
     }
-    .output.empty .value { color: #9ca3af; font-weight: 600; }
+
+    .output.empty .value { color: #cbd5e1; font-weight: 600; }
+
     .result {
       margin-top: 22px;
-      padding: 18px 18px 16px;
+      padding: 18px 20px 16px;
       border: 1px solid var(--success-border);
-      background: var(--success-bg);
-      border-radius: 16px;
+      background: rgba(240, 253, 244, 0.6);
+      border-radius: 20px;
+      transition: transform .25s ease, box-shadow .25s ease;
     }
+
+    .result.has-values {
+      background: var(--success-bg);
+      box-shadow: 0 10px 40px rgba(22, 163, 74, 0.08);
+      transform: translateY(-2px);
+    }
+
     .result-row {
       display: flex;
       justify-content: space-between;
@@ -143,9 +201,44 @@
       gap: 12px;
       padding: 6px 0;
     }
-    .result-row + .result-row { border-top: 1px dashed #d1fae5; }
+
+    .result-row + .result-row { border-top: 1px dashed #dcfce7; }
+
     .result-label { color: #064e3b; font-weight: 600; font-size: 14px; }
     .result-value { color: var(--success-text); font-weight: 800; font-size: 16px; text-align: right; }
+
+    .actions {
+      margin-top: 18px;
+      display: flex;
+      justify-content: flex-end;
+    }
+
+    .reset {
+      border: 1px solid var(--border);
+      background: #ffffff;
+      color: var(--text);
+      padding: 10px 14px;
+      border-radius: 14px;
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: 600;
+      transition: transform .2s ease, background .2s ease;
+    }
+
+    .reset:hover { background: #f9fafb; transform: translateY(-1px); }
+
+    .hint {
+      margin-top: 4px;
+      font-size: 12px;
+      color: var(--muted);
+      font-weight: 500;
+    }
+
+    @media (max-width: 560px) {
+      .grid { grid-template-columns: 1fr; }
+      .card { padding: 22px 16px 18px; }
+      .header h1 { font-size: 20px; }
+    }
   </style>
 </head>
 <body>
@@ -153,64 +246,108 @@
     <div class="card">
       <div class="header">
         <h1>Kalkulator Saham</h1>
-        <button class="reset" id="resetBtn" type="button">Reset</button>
+        <div class="badge">
+          <span class="dot"></span>
+          Langsung hitung
+        </div>
       </div>
 
       <div class="section">
         <div class="section-title">Info Saham</div>
         <div class="grid">
-          <div>
+          <div class="field">
             <label for="kodeSaham">Kode Saham (IDX)</label>
-            <input id="kodeSaham" type="text" inputmode="text" placeholder="Contoh: BBCA" />
+            <input
+              id="kodeSaham"
+              type="text"
+              inputmode="text"
+              placeholder="Contoh: BBCA"
+            />
           </div>
-          <div>
+          <div class="field">
             <label for="hargaSaham">Harga Saham sekarang (Rp)</label>
-            <input id="hargaSaham" type="number" inputmode="numeric" min="0" step="1" placeholder="0" />
+            <input
+              id="hargaSaham"
+              type="number"
+              inputmode="numeric"
+              min="0"
+              step="1"
+              placeholder="0"
+            />
           </div>
         </div>
+        <div class="hint">Kode saham otomatis mengambil harga terkini jika tersedia.</div>
       </div>
 
       <div class="section">
         <div class="section-title">Pembelian Awal</div>
         <div class="grid">
-          <div>
+          <div class="field">
             <label for="nominalAwal">Nominal Awal (Rp)</label>
-            <input id="nominalAwal" type="number" inputmode="numeric" min="0" step="1" placeholder="0" />
+            <input
+              id="nominalAwal"
+              type="number"
+              inputmode="numeric"
+              min="0"
+              step="1"
+              placeholder="0"
+            />
           </div>
-          <div>
+          <div class="field">
             <label for="lotAwal">Lot Awal</label>
-            <input id="lotAwal" type="number" inputmode="numeric" min="0" step="1" placeholder="0" />
+            <input
+              id="lotAwal"
+              type="number"
+              inputmode="numeric"
+              min="0"
+              step="1"
+              placeholder="0"
+            />
           </div>
         </div>
-        <div class="output" id="avgAwalBox">
+        <div class="output empty" id="avgAwalBox">
           <div class="label">AVG Awal</div>
-          <div class="value empty" id="avgAwal">—</div>
+          <div class="value" id="avgAwal">—</div>
         </div>
       </div>
 
       <div class="section">
         <div class="section-title">Pembelian Tambah</div>
         <div class="grid">
-          <div>
+          <div class="field">
             <label for="hargaTambah">Harga Tambah (Rp)</label>
-            <input id="hargaTambah" type="number" inputmode="numeric" min="0" step="1" placeholder="0" />
+            <input
+              id="hargaTambah"
+              type="number"
+              inputmode="numeric"
+              min="0"
+              step="1"
+              placeholder="0"
+            />
           </div>
-          <div>
+          <div class="field">
             <label for="lotTambah">Lot Tambah</label>
-            <input id="lotTambah" type="number" inputmode="numeric" min="0" step="1" placeholder="0" />
+            <input
+              id="lotTambah"
+              type="number"
+              inputmode="numeric"
+              min="0"
+              step="1"
+              placeholder="0"
+            />
           </div>
         </div>
-        <div class="output" id="nominalTambahBox">
+        <div class="output empty" id="nominalTambahBox">
           <div class="label">Nominal Tambah</div>
-          <div class="value empty" id="nominalTambah">—</div>
+          <div class="value" id="nominalTambah">—</div>
         </div>
       </div>
 
       <div class="section">
         <div class="section-title">Hasil Akhir</div>
-        <div class="result">
+        <div class="result" id="resultBox">
           <div class="result-row">
-            <div class="result-label">Nominal Akhir</div>
+            <div class="result-label">Total Menginap</div>
             <div class="result-value" id="nominalAkhir">Rp 0</div>
           </div>
           <div class="result-row">
@@ -223,6 +360,10 @@
           </div>
         </div>
       </div>
+
+      <div class="actions">
+        <button class="reset" id="resetBtn" type="button">Reset</button>
+      </div>
     </div>
   </div>
 
@@ -231,6 +372,8 @@
     const lotAwal = document.getElementById('lotAwal');
     const hargaTambah = document.getElementById('hargaTambah');
     const lotTambah = document.getElementById('lotTambah');
+    const kodeSaham = document.getElementById('kodeSaham');
+    const hargaSaham = document.getElementById('hargaSaham');
 
     const avgAwalEl = document.getElementById('avgAwal');
     const avgAwalBox = document.getElementById('avgAwalBox');
@@ -239,24 +382,19 @@
     const nominalAkhirEl = document.getElementById('nominalAkhir');
     const lotAkhirEl = document.getElementById('lotAkhir');
     const avgAkhirEl = document.getElementById('avgAkhir');
+    const resultBox = document.getElementById('resultBox');
     const resetBtn = document.getElementById('resetBtn');
 
-    const kodeSaham = document.getElementById('kodeSaham');
-    const hargaSahamEl = document.getElementById('hargaSaham');
-
     const fmt = (n) => {
-      if (!Number.isFinite(n)) return 'Rp 0';
-      return 'Rp ' + Math.round(n).toLocaleString('id-ID');
+      const value = parseFloat(n);
+      if (!Number.isFinite(value)) return 'Rp 0';
+      return 'Rp ' + Math.round(value).toLocaleString('id-ID');
     };
+
     const setBox = (box, el, text, filled) => {
       el.textContent = text;
-      if (filled) {
-        box.classList.remove('empty');
-        el.classList.remove('empty');
-      } else {
-        box.classList.add('empty');
-        el.classList.add('empty');
-      }
+      box.classList.toggle('empty', !filled);
+      box.classList.toggle('filled', filled);
     };
 
     const calc = () => {
@@ -283,10 +421,13 @@
       nominalAkhirEl.textContent = fmt(nomAkhir);
       lotAkhirEl.textContent = lotAkhir + ' lot';
       avgAkhirEl.textContent = fmt(avgAkhir);
+
+      const hasResult = (na > 0 || hasTambah);
+      resultBox.classList.toggle('has-values', hasResult);
     };
 
     const setHargaSaham = (value) => {
-      hargaSahamEl.value = value;
+      hargaSaham.value = value;
       calc();
     };
 
@@ -301,10 +442,10 @@
 
       try {
         const res = await fetch(`https://query1.finance.yahoo.com/v8/finance/chart/${ticker}`);
-        if (!res.ok) throw new Error('Gagalmemuat');
+        if (!res.ok) throw new Error('Gagal memuat');
         const data = await res.json();
         const price = data?.chart?.result?.[0]?.meta?.regularMarketPrice;
-        if (!Number.isFinite(price)) throw new Error('Harga tiak ditemukan');
+        if (!Number.isFinite(price)) throw new Error('Harga tidak ditemukan');
         setHargaSaham(Math.round(price));
       } catch (e) {
         setHargaSaham('');
@@ -322,11 +463,16 @@
     });
 
     const reset = () => {
-      [nominalAwal, lotAwal, hargaTambah, lotTambah, kodeSaham, hargaSahamEl].forEach((el) => { el.value = ''; });
+      [nominalAwal, lotAwal, hargaTambah, lotTambah, kodeSaham, hargaSaham].forEach((el) => {
+        el.value = '';
+      });
       calc();
     };
 
-    [nominalAwal, lotAwal, hargaTambah, lotTambah, hargaSahamEl].forEach((el) => el.addEventListener('input', calc));
+    [nominalAwal, lotAwal, hargaTambah, lotTambah, hargaSaham].forEach((el) => {
+      el.addEventListener('input', calc);
+    });
+
     resetBtn.addEventListener('click', reset);
   </script>
 </body>
