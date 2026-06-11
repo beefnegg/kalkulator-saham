@@ -157,6 +157,20 @@
       </div>
 
       <div class="section">
+        <div class="section-title">Info Saham</div>
+        <div class="grid">
+          <div>
+            <label for="kodeSaham">Kode Saham (IDX)</label>
+            <input id="kodeSaham" type="text" inputmode="text" placeholder="Contoh: BBCA" />
+          </div>
+          <div>
+            <label for="hargaSaham">Harga Saham (Rp)</label>
+            <input id="hargaSaham" type="number" inputmode="numeric" min="0" step="1" placeholder="0" />
+          </div>
+        </div>
+      </div>
+
+      <div class="section">
         <div class="section-title">Pembelian Awal</div>
         <div class="grid">
           <div>
@@ -227,6 +241,9 @@
     const avgAkhirEl = document.getElementById('avgAkhir');
     const resetBtn = document.getElementById('resetBtn');
 
+    const kodeSaham = document.getElementById('kodeSaham');
+    const hargaSahamEl = document.getElementById('hargaSaham');
+
     const fmt = (n) => {
       if (!Number.isFinite(n)) return 'Rp 0';
       return 'Rp ' + Math.round(n).toLocaleString('id-ID');
@@ -268,12 +285,48 @@
       avgAkhirEl.textContent = fmt(avgAkhir);
     };
 
-    const reset = () => {
-      [nominalAwal, lotAwal, hargaTambah, lotTambah].forEach((el) => { el.value = ''; });
+    const setHargaSaham = (value) => {
+      hargaSahamEl.value = value;
       calc();
     };
 
-    [nominalAwal, lotAwal, hargaTambah, lotTambah].forEach((el) => el.addEventListener('input', calc));
+    const fetchHarga = async () => {
+      const raw = (kodeSaham.value || '').trim();
+      const ticker = raw ? `${raw.toUpperCase()}.JK` : '';
+
+      if (!ticker) {
+        setHargaSaham('');
+        return;
+      }
+
+      try {
+        const res = await fetch(`https://query1.finance.yahoo.com/v8/finance/chart/${ticker}`);
+        if (!res.ok) throw new Error('Gagalmemuat');
+        const data = await res.json();
+        const price = data?.chart?.result?.[0]?.meta?.regularMarketPrice;
+        if (!Number.isFinite(price)) throw new Error('Harga tiak ditemukan');
+        setHargaSaham(Math.round(price));
+      } catch (e) {
+        setHargaSaham('');
+      }
+    };
+
+    kodeSaham.addEventListener('input', async () => {
+      const val = (kodeSaham.value || '').trim();
+      if (!val) {
+        setHargaSaham('');
+        return;
+      }
+      if (!/^[A-Z0-9.]{1,10}$/i.test(val)) return;
+      await fetchHarga();
+    });
+
+    const reset = () => {
+      [nominalAwal, lotAwal, hargaTambah, lotTambah, kodeSaham, hargaSahamEl].forEach((el) => { el.value = ''; });
+      calc();
+    };
+
+    [nominalAwal, lotAwal, hargaTambah, lotTambah, hargaSahamEl].forEach((el) => el.addEventListener('input', calc));
     resetBtn.addEventListener('click', reset);
   </script>
 </body>
