@@ -56,7 +56,7 @@
       align-items: center;
       justify-content: space-between;
       gap: 12px;
-      margin-bottom: 22px;
+      margin-bottom: 24px;
     }
 
     .header h1 {
@@ -94,38 +94,7 @@
       100% { box-shadow: 0 0 0 0 rgba(34, 197, 94, 0); }
     }
 
-    .tabs {
-      display: flex;
-      gap: 8px;
-      margin: 0 0 18px;
-    }
-
-    .tab {
-      flex: 1;
-      border-radius: 999px;
-      border: 1px solid rgba(229, 231, 235, 0.9);
-      background: #ffffff;
-      padding: 9px 10px;
-      font-size: 13px;
-      font-weight: 600;
-      color: #374151;
-      cursor: pointer;
-      transition: transform .2s ease, background .2s ease, box-shadow .2s ease;
-    }
-
-    .tab:hover {
-      background: #f9fafb;
-      transform: translateY(-1px);
-    }
-
-    .tab.active {
-      background: var(--primary);
-      color: #ffffff;
-      border-color: var(--primary);
-      box-shadow: 0 10px 30px rgba(79, 70, 229, 0.18);
-    }
-
-    .section + .section { margin-top: 18px; }
+    .section + .section { margin-top: 22px; }
 
     .section-title {
       font-size: 12px;
@@ -133,7 +102,7 @@
       color: var(--muted);
       text-transform: uppercase;
       letter-spacing: 0.7px;
-      margin-bottom: 10px;
+      margin-bottom: 12px;
     }
 
     .grid {
@@ -141,6 +110,10 @@
       grid-template-columns: 1fr 1fr;
       gap: 14px;
       transition: all .3s ease;
+    }
+
+    .field {
+      position: relative;
     }
 
     .field label {
@@ -153,7 +126,7 @@
 
     .field input {
       width: 100%;
-      padding: 12px 14px;
+      padding: 12px 14px 12px 14px;
       border: 1px solid var(--border);
       border-radius: 14px;
       background: #ffffff;
@@ -172,7 +145,7 @@
     }
 
     .output {
-      margin-top: 12px;
+      margin-top: 14px;
       padding: 14px 16px;
       border: 1px solid rgba(229, 231, 235, 0.9);
       border-radius: 18px;
@@ -207,7 +180,7 @@
     .output.empty .value { color: #cbd5e1; font-weight: 600; }
 
     .result {
-      margin-top: 20px;
+      margin-top: 22px;
       padding: 18px 20px 16px;
       border: 1px solid var(--success-border);
       background: rgba(240, 253, 244, 0.6);
@@ -261,14 +234,6 @@
       font-weight: 500;
     }
 
-    .panel {
-      display: none;
-    }
-
-    .panel.active {
-      display: block;
-    }
-
     @media (max-width: 560px) {
       .grid { grid-template-columns: 1fr; }
       .card { padding: 22px 16px 18px; }
@@ -285,11 +250,6 @@
           <span class="dot"></span>
           Langsung hitung
         </div>
-      </div>
-
-      <div class="tabs">
-        <button class="tab active" data-mode="normal" id="tabNormal" type="button">Normal</button>
-        <button class="tab" data-mode="avg-target" id="tabAvgTarget" type="button">Target AVG Akhir</button>
       </div>
 
       <div class="section">
@@ -351,106 +311,52 @@
         </div>
       </div>
 
-      <div class="panel active" id="panelNormal">
-        <div class="section">
-          <div class="section-title">Pembelian Tambah</div>
-          <div class="grid">
-            <div class="field">
-              <label for="hargaTambah">Harga Tambah (Rp)</label>
-              <input
-                id="hargaTambah"
-                type="number"
-                inputmode="numeric"
-                min="0"
-                step="1"
-                placeholder="0"
-              />
-            </div>
-            <div class="field">
-              <label for="lotTambah">Lot Tambah</label>
-              <input
-                id="lotTambah"
-                type="number"
-                inputmode="numeric"
-                min="0"
-                step="1"
-                placeholder="0"
-              />
-            </div>
+      <div class="section">
+        <div class="section-title">Pembelian Tambah</div>
+        <div class="grid">
+          <div class="field">
+            <label for="hargaTambah">Harga Tambah (Rp)</label>
+            <input
+              id="hargaTambah"
+              type="number"
+              inputmode="numeric"
+              min="0"
+              step="1"
+              placeholder="0"
+            />
           </div>
-          <div class="output empty" id="nominalTambahBox">
-            <div class="label">Nominal Tambah</div>
-            <div class="value" id="nominalTambah">—</div>
+          <div class="field">
+            <label for="lotTambah">Lot Tambah</label>
+            <input
+              id="lotTambah"
+              type="number"
+              inputmode="numeric"
+              min="0"
+              step="1"
+              placeholder="0"
+            />
           </div>
         </div>
-
-        <div class="section">
-          <div class="section-title">Hasil Akhir</div>
-          <div class="result" id="resultBox">
-            <div class="result-row">
-              <div class="result-label">Nominal Akhir</div>
-              <div class="result-value" id="normal_nominalAkhir">Rp 0</div>
-            </div>
-            <div class="result-row">
-              <div class="result-label">Lot Akhir</div>
-              <div class="result-value" id="normal_lotAkhir">0 lot</div>
-            </div>
-            <div class="result-row">
-              <div class="result-label">AVG Akhir</div>
-              <div class="result-value" id="normal_avgAkhir">Rp 0</div>
-            </div>
-          </div>
+        <div class="output empty" id="nominalTambahBox">
+          <div class="label">Nominal Tambah</div>
+          <div class="value" id="nominalTambah">—</div>
         </div>
       </div>
 
-      <div class="panel" id="panelAvgTarget">
-        <div class="section">
-          <div class="section-title">Input Tambahan</div>
-          <div class="grid">
-            <div class="field">
-              <label for="nominalTambah">Nominal Tambah (Rp)</label>
-              <input
-                id="nominalTambah"
-                type="number"
-                inputmode="numeric"
-                min="0"
-                step="1"
-                placeholder="0"
-              />
-            </div>
-            <div class="field">
-              <label for="targetAvg">Target AVG Akhir (Rp)</label>
-              <input
-                id="targetAvg"
-                type="number"
-                inputmode="numeric"
-                min="0"
-                step="1"
-                placeholder="0"
-              />
-            </div>
+      <div class="section">
+        <div class="section-title">Hasil Akhir</div>
+        <div class="result" id="resultBox">
+          <div class="result-row">
+            <div class="result-label">Total Menginap</div>
+            <div class="result-value" id="nominalAkhir">Rp 0</div>
           </div>
-        </div>
-
-        <div class="section">
-          <div class="section-title">Hasil Target AVG Akhir</div>
-          <div class="result" id="avgTargetResultBox">
-            <div class="result-row">
-              <div class="result-label">Nominal Akhir</div>
-              <div class="result-value" id="avgTarget_nominalAkhir">Rp 0</div>
-            </div>
-            <div class="result-row">
-              <div class="result-label">Lot Akhir</div>
-              <div class="result-value" id="avgTarget_lotAkhir">0 lot</div>
-            </div>
-            <div class="result-row">
-              <div class="result-label">Lot Tambah</div>
-              <div class="result-value" id="avgTarget_lotTambah">0 lot</div>
-            </div>
-            <div class="result-row">
-              <div class="result-label">Harga Tambah</div>
-              <div class="result-value" id="avgTarget_hargaTambah">Rp 0</div>
-            </div>
+          <div class="result-row">
+            <div class="result-label">Lot Akhir</div>
+            <div class="result-value" id="lotAkhir">0 lot</div>
+          </div>
+          <div class="result-row">
+            <div class="result-label">AVG Akhir</div>
+            <div class="result-value" id="avgAkhir">Rp 0</div>
           </div>
         </div>
       </div>
@@ -466,8 +372,6 @@
     const lotAwal = document.getElementById('lotAwal');
     const hargaTambah = document.getElementById('hargaTambah');
     const lotTambah = document.getElementById('lotTambah');
-    const nominalTambah = document.getElementById('inputNominalTambah');
-    const targetAvg = document.getElementById('targetAvg');
     const kodeSaham = document.getElementById('kodeSaham');
     const hargaSaham = document.getElementById('hargaSaham');
 
@@ -475,25 +379,11 @@
     const avgAwalBox = document.getElementById('avgAwalBox');
     const nominalTambahEl = document.getElementById('nominalTambah');
     const nominalTambahBox = document.getElementById('nominalTambahBox');
-
-    const normalNominalAkhirEl = document.getElementById('normal_nominalAkhir');
-    const normalLotAkhirEl = document.getElementById('normal_lotAkhir');
-    const normalAvgAkhirEl = document.getElementById('normal_avgAkhir');
-    const normalResultBox = document.getElementById('resultBox');
-
-    const avgTargetNominalAkhirEl = document.getElementById('avgTarget_nominalAkhir');
-    const avgTargetLotAkhirEl = document.getElementById('avgTarget_lotAkhir');
-    const avgTargetLotTambahEl = document.getElementById('avgTarget_lotTambah');
-    const avgTargetHargaTambahEl = document.getElementById('avgTarget_hargaTambah');
-    const avgTargetResultBox = document.getElementById('avgTargetResultBox');
-
-    const tabNormal = document.getElementById('tabNormal');
-    const tabAvgTarget = document.getElementById('tabAvgTarget');
-    const panelNormal = document.getElementById('panelNormal');
-    const panelAvgTarget = document.getElementById('panelAvgTarget');
+    const nominalAkhirEl = document.getElementById('nominalAkhir');
+    const lotAkhirEl = document.getElementById('lotAkhir');
+    const avgAkhirEl = document.getElementById('avgAkhir');
+    const resultBox = document.getElementById('resultBox');
     const resetBtn = document.getElementById('resetBtn');
-
-    let mode = 'normal';
 
     const fmt = (n) => {
       const value = parseFloat(n);
@@ -507,14 +397,7 @@
       box.classList.toggle('filled', filled);
     };
 
-    const setMode = (next) => {
-      mode = next;
-      [tabNormal, tabAvgTarget].forEach((btn) => btn.classList.toggle('active', btn.dataset.mode === next));
-      [panelNormal, panelAvgTarget].forEach((panel) => panel.classList.toggle('active', panel.id === (next === 'normal' ? 'panelNormal' : 'panelAvgTarget')));
-      if (next === 'normal') calcNormal(); else calcAvgTarget();
-    };
-
-    const calcNormal = () => {
+    const calc = () => {
       const na = parseFloat(nominalAwal.value) || 0;
       const la = parseFloat(lotAwal.value) || 0;
       const ht = parseFloat(hargaTambah.value) || 0;
@@ -535,51 +418,17 @@
       setBox(avgAwalBox, avgAwalEl, hasAwal && avgA > 0 ? fmt(avgA) : '—', hasAwal && avgA > 0);
       setBox(nominalTambahBox, nominalTambahEl, hasTambah && nomT > 0 ? fmt(nomT) : '—', hasTambah && nomT > 0);
 
-      normalNominalAkhirEl.textContent = fmt(nomAkhir);
-      normalLotAkhirEl.textContent = lotAkhir + ' lot';
-      normalAvgAkhirEl.textContent = fmt(avgAkhir);
+      nominalAkhirEl.textContent = fmt(nomAkhir);
+      lotAkhirEl.textContent = lotAkhir + ' lot';
+      avgAkhirEl.textContent = fmt(avgAkhir);
 
       const hasResult = (na > 0 || hasTambah);
-      normalResultBox.classList.toggle('has-values', hasResult);
-    };
-
-    const calcAvgTarget = () => {
-      const na = parseFloat(nominalAwal.value) || 0;
-      const la = parseFloat(lotAwal.value) || 0;
-      const nominalTambahVal = parseFloat(nominalTambah.value) || 0;
-      const targetAvgVal = parseFloat(targetAvg.value) || 0;
-
-      const lembarAwal = la * 100;
-      const avgAwal = lembarAwal > 0 ? na / lembarAwal : 0;
-
-      const hasAwal = nominalAwal.value !== '' && lotAwal.value !== '';
-      const hasTarget = nominalTambah.value !== '' && targetAvg.value !== '';
-
-      setBox(avgAwalBox, avgAwalEl, hasAwal && avgAwal > 0 ? fmt(avgAwal) : '—', hasAwal && avgAwal > 0);
-
-      if (hasAwal && hasTarget && targetAvgVal > 0) {
-        const nominalAkhir = na + nominalTambahVal;
-        const lotAkhir = nominalAkhir / (targetAvgVal * 100);
-        const lotTambah = lotAkhir - la;
-        const hargaTambahCalc = (lotTambah * 100) > 0 ? nominalTambahVal / (lotTambah * 100) : 0;
-
-        avgTargetNominalAkhirEl.textContent = fmt(nominalAkhir);
-        avgTargetLotAkhirEl.textContent = lotAkhir.toFixed(2) + ' lot';
-        avgTargetLotTambahEl.textContent = lotTambah.toFixed(2) + ' lot';
-        avgTargetHargaTambahEl.textContent = fmt(hargaTambahCalc);
-        avgTargetResultBox.classList.add('has-values');
-      } else {
-        avgTargetNominalAkhirEl.textContent = 'Rp 0';
-        avgTargetLotAkhirEl.textContent = '0 lot';
-        avgTargetLotTambahEl.textContent = '0 lot';
-        avgTargetHargaTambahEl.textContent = 'Rp 0';
-        avgTargetResultBox.classList.remove('has-values');
-      }
+      resultBox.classList.toggle('has-values', hasResult);
     };
 
     const setHargaSaham = (value) => {
       hargaSaham.value = value;
-      if (mode === 'normal') calcNormal(); else calcAvgTarget();
+      calc();
     };
 
     const fetchHarga = async () => {
@@ -614,22 +463,17 @@
     });
 
     const reset = () => {
-      [nominalAwal, lotAwal, hargaTambah, lotTambah, inputNominalTambah, targetAvg, kodeSaham, hargaSaham].forEach((el) => {
+      [nominalAwal, lotAwal, hargaTambah, lotTambah, kodeSaham, hargaSaham].forEach((el) => {
         el.value = '';
       });
-      calcNormal();
-      calcAvgTarget();
+      calc();
     };
 
-    const bindInputs = (...els) => els.forEach((el) => el.addEventListener('input', () => {
-          if (mode === 'normal') calcNormal(); else calcAvgTarget();
-    }));
+    [nominalAwal, lotAwal, hargaTambah, lotTambah, hargaSaham].forEach((el) => {
+      el.addEventListener('input', calc);
+    });
 
-    tabNormal.addEventListener('click', () => setMode('normal'));
-    tabAvgTarget.addEventListener('click', () => setMode('avg-target'));
     resetBtn.addEventListener('click', reset);
-
-    bindInputs(nominalAwal, lotAwal, hargaTambah, lotTambah, hargaSaham, nominalTambah, targetAvg);
   </script>
 </body>
 </html>
