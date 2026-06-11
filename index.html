@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kalkulator Saham</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background: #f0f2f5;
+      color: #1a1a1a;
+      padding: 16px;
+      display: flex;
+      justify-content: center;
+      min-height: 100vh;
+    }
+    .container {
+      background: #fff;
+      width: 100%;
+      max-width: 520px;
+      border-radius: 16px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+      padding: 24px;
+      margin-top: 20px;
+      margin-bottom: 20px;
+    }
+    h1 {
+      text-align: center;
+      margin-bottom: 24px;
+      font-size: 22px;
+      color: #111;
+    }
+    .section {
+      margin-bottom: 24px;
+      padding-bottom: 20px;
+      border-bottom: 1px solid #e5e7eb;
+    }
+    .section:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+    .section-title {
+      font-size: 14px;
+      font-weight: 600;
+      color: #6b7280;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 16px;
+    }
+    .row {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+    .input-group {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+    label {
+      font-size: 13px;
+      font-weight: 500;
+      color: #374151;
+      margin-bottom: 6px;
+    }
+    input {
+      padding: 12px 14px;
+      border: 1px solid #d1d5db;
+      border-radius: 10px;
+      font-size: 16px;
+      background: #f9fafb;
+      transition: all 0.2s;
+      width: 100%;
+    }
+    input:focus {
+      outline: none;
+      border-color: #2563eb;
+      background: #fff;
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+    }
+    .output-group {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+    .output-value {
+      padding: 12px 14px;
+      background: #eff6ff;
+      border: 1px solid #bfdbfe;
+      border-radius: 10px;
+      font-size: 16px;
+      font-weight: 600;
+      color: #1e40af;
+      min-height: 46px;
+      display: flex;
+      align-items: center;
+    }
+    .output-value.empty {
+      color: #9ca3af;
+      font-weight: 400;
+      background: #f3f4f6;
+      border-color: #e5e7eb;
+    }
+    .total-box {
+      background: #f0fdf4;
+      border: 1px solid #bbf7d0;
+      border-radius: 12px;
+      padding: 16px;
+      margin-top: 4px;
+    }
+    .total-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+      font-size: 15px;
+    }
+    .total-row:last-child { margin-bottom: 0; }
+    .total-label { color: #374151; font-weight: 500; }
+    .total-value { color: #065f46; font-weight: 700; font-size: 16px; }
+    @media (max-width: 480px) {
+      .container { padding: 18px; margin-top: 0; border-radius: 0; box-shadow: none; background: #fafafa; }
+      .row { flex-direction: column; gap: 10px; }
+      input, .output-value { font-size: 16px; }
+      h1 { font-size: 20px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>📈 Kalkulator Saham</h1>
+
+    <div class="section">
+      <div class="section-title">Pembelian Awal</div>
+      <div class="row">
+        <div class="input-group">
+          <label for="nominalAwal">Nominal Awal (Rp)</label>
+          <input type="number" id="nominalAwal" placeholder="Contoh: 1000000" min="0" step="1">
+        </div>
+        <div class="input-group">
+          <label for="lotAwal">Lot Awal</label>
+          <input type="number" id="lotAwal" placeholder="Contoh: 2" min="0" step="1">
+        </div>
+      </div>
+      <div class="row">
+        <div class="output-group">
+          <label>AVG Awal (per lembar)</label>
+          <div id="avgAwal" class="output-value empty">—</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title">Pembelian Tambah</div>
+      <div class="row">
+        <div class="input-group">
+          <label for="hargaTambah">Harga Tambah (Rp)</label>
+          <input type="number" id="hargaTambah" placeholder="Contoh: 1500" min="0" step="1">
+        </div>
+        <div class="input-group">
+          <label for="lotTambah">Lot Tambah</label>
+          <input type="number" id="lotTambah" placeholder="Contoh: 1" min="0" step="1">
+        </div>
+      </div>
+      <div class="row">
+        <div class="output-group">
+          <label>Nominal Tambah (Rp)</label>
+          <div id="nominalTambah" class="output-value empty">—</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title">Hasil Akhir</div>
+      <div class="total-box">
+        <div class="total-row">
+          <span class="total-label">Nominal Akhir</span>
+          <span class="total-value" id="nominalAkhir">Rp 0</span>
+        </div>
+        <div class="total-row">
+          <span class="total-label">Lot Akhir</span>
+          <span class="total-value" id="lotAkhir">0 lot</span>
+        </div>
+        <div class="total-row">
+          <span class="total-label">AVG Akhir (per lembar)</span>
+          <span class="total-value" id="avgAkhir">Rp 0</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const nominalAwalInput = document.getElementById('nominalAwal');
+    const lotAwalInput = document.getElementById('lotAwal');
+    const hargaTambahInput = document.getElementById('hargaTambah');
+    const lotTambahInput = document.getElementById('lotTambah');
+
+    const avgAwalEl = document.getElementById('avgAwal');
+    const nominalTambahEl = document.getElementById('nominalTambah');
+    const nominalAkhirEl = document.getElementById('nominalAkhir');
+    const lotAkhirEl = document.getElementById('lotAkhir');
+    const avgAkhirEl = document.getElementById('avgAkhir');
+
+    function formatRupiah(num) {
+      if (isNaN(num) || num === 0) return 'Rp 0';
+      return 'Rp ' + Math.round(num).toLocaleString('id-ID');
+    }
+
+    function formatLot(num) {
+      if (isNaN(num)) return '0 lot';
+      return num + ' lot';
+    }
+
+    function calculate() {
+      const nominalAwal = parseFloat(nominalAwalInput.value) || 0;
+      const lotAwal = parseFloat(lotAwalInput.value) || 0;
+      const hargaTambah = parseFloat(hargaTambahInput.value) || 0;
+      const lotTambah = parseFloat(lotTambahInput.value) || 0;
+
+      const lembarAwal = lotAwal * 100;
+      const avgAwal = lembarAwal > 0 ? nominalAwal / lembarAwal : 0;
+
+      const lembarTambah = lotTambah * 100;
+      const nominalTambah = hargaTambah * lembarTambah;
+
+      const nominalAkhir = nominalAwal + nominalTambah;
+      const lotAkhir = lotAwal + lotTambah;
+      const lembarAkhir = lotAkhir * 100;
+      const avgAkhir = lembarAkhir > 0 ? nominalAkhir / lembarAkhir : 0;
+
+      // Update UI
+      if (nominalAwalInput.value && lotAwalInput.value && avgAwal > 0) {
+        avgAwalEl.textContent = formatRupiah(avgAwal);
+        avgAwalEl.classList.remove('empty');
+      } else {
+        avgAwalEl.textContent = '—';
+        avgAwalEl.classList.add('empty');
+      }
+
+      if (hargaTambahInput.value && lotTambahInput.value && nominalTambah > 0) {
+        nominalTambahEl.textContent = formatRupiah(nominalTambah);
+        nominalTambahEl.classList.remove('empty');
+      } else {
+        nominalTambahEl.textContent = '—';
+        nominalTambahEl.classList.add('empty');
+      }
+
+      nominalAkhirEl.textContent = formatRupiah(nominalAkhir);
+      lotAkhirEl.textContent = lotAkhir + ' lot';
+      avgAkhirEl.textContent = formatRupiah(avgAkhir);
+    }
+
+    [nominalAwalInput, lotAwalInput, hargaTambahInput, lotTambahInput].forEach(el => {
+      el.addEventListener('input', calculate);
+    });
+  </script>
+</body>
+</html>
