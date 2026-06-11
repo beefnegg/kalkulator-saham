@@ -1,280 +1,406 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Kalkulator Saham</title>
-  <style>
-    :root {
-      --bg: #f4f6fb;
-      --card: #ffffff;
-      --text: #111827;
-      --muted: #6b7280;
-      --border: #e5e7eb;
-      --primary: #2563eb;
-      --primary-weak: #dbeafe;
-      --success-bg: #f0fdf4;
-      --success-border: #bbf7d0;
-      --success-text: #065f46;
-      --shadow: 0 10px 30px rgba(15, 23, 42, 0.08);
-      --radius: 18px;
-    }
-    * { box-sizing: border-box; }
-    html, body { height: 100%; }
-    body {
-      margin: 0;
-      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
-      background: var(--bg);
-      color: var(--text);
-      -webkit-font-smoothing: antialiased;
-    }
-    .wrap {
-      min-height: 100%;
-      display: grid;
-      place-items: start center;
-      padding: 24px 16px 40px;
-    }
-    .card {
-      width: 100%;
-      max-width: 600px;
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
-      padding: 28px 28px 24px;
-    }
-    .header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-      margin-bottom: 22px;
-    }
-    .header h1 {
-      font-size: 22px;
-      margin: 0;
-      letter-spacing: -0.2px;
-    }
-    .reset {
-      border: 1px solid var(--border);
-      background: #fff;
-      color: var(--text);
-      padding: 8px 12px;
-      border-radius: 12px;
-      cursor: pointer;
-      font-size: 14px;
-    }
-    .reset:hover { background: #f9fafb; }
-    .section + .section { margin-top: 22px; }
-    .section-title {
-      font-size: 12px;
-      font-weight: 700;
-      color: var(--muted);
-      text-transform: uppercase;
-      letter-spacing: 0.6px;
-      margin-bottom: 12px;
-    }
-    .grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 16px;
-    }
-    @media (max-width: 520px) {
-      .grid { grid-template-columns: 1fr; }
-      .card { padding: 20px 16px 18px; }
-      .header h1 { font-size: 20px; }
-    }
-    label {
-      display: block;
-      font-size: 13px;
-      font-weight: 600;
-      color: #374151;
-      margin-bottom: 6px;
-    }
-    input {
-      width: 100%;
-      padding: 12px 14px;
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      background: #fafafa;
-      font-size: 16px;
-      color: var(--text);
-      transition: 0.2s ease;
-    }
-    input:focus {
-      outline: none;
-      background: #fff;
-      border-color: var(--primary);
-      box-shadow: 0 0 0 4px var(--primary-weak);
-    }
-    .output {
-      margin-top: 14px;
-      padding: 14px 16px;
-      border: 1px solid var(--border);
-      border-radius: 14px;
-      background: #f8fafc;
-    }
-    .output .label {
-      font-size: 12px;
-      color: var(--muted);
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.4px;
-      margin-bottom: 4px;
-    }
-    .output .value {
-      font-size: 18px;
-      font-weight: 800;
-      color: #0b1220;
-      word-break: break-word;
-    }
-    .output.empty .value { color: #9ca3af; font-weight: 600; }
-    .result {
-      margin-top: 22px;
-      padding: 18px 18px 16px;
-      border: 1px solid var(--success-border);
-      background: var(--success-bg);
-      border-radius: 16px;
-    }
-    .result-row {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 12px;
-      padding: 6px 0;
-    }
-    .result-row + .result-row { border-top: 1px dashed #d1fae5; }
-    .result-label { color: #064e3b; font-weight: 600; font-size: 14px; }
-    .result-value { color: var(--success-text); font-weight: 800; font-size: 16px; text-align: right; }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <title>Stock Calculator</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            color: #333;
+        }
+
+        .container {
+            max-width: 500px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px 25px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 28px;
+            margin-bottom: 5px;
+            font-weight: 700;
+        }
+
+        .header p {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+
+        .content {
+            padding: 30px 25px;
+        }
+
+        .input-group {
+            margin-bottom: 25px;
+        }
+
+        .input-group label {
+            display: block;
+            font-size: 14px;
+            font-weight: 600;
+            color: #555;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .input-row {
+            display: flex;
+            gap: 10px;
+        }
+
+        .input-field {
+            flex: 1;
+            position: relative;
+        }
+
+        input[type="text"],
+        input[type="number"] {
+            width: 100%;
+            padding: 14px 16px;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            font-size: 16px;
+            font-family: inherit;
+            transition: all 0.3s ease;
+            background: #f8f9fa;
+        }
+
+        input[type="text"]:focus,
+        input[type="number"]:focus {
+            outline: none;
+            border-color: #667eea;
+            background: white;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .search-btn {
+            padding: 14px 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            font-size: 20px;
+            transition: transform 0.2s;
+            white-space: nowrap;
+        }
+
+        .search-btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .search-btn:active {
+            transform: translateY(0);
+        }
+
+        .stock-info {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            padding: 15px 20px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            display: none;
+            animation: slideDown 0.3s ease;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .stock-info.show {
+            display: block;
+        }
+
+        .stock-name {
+            font-size: 18px;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 5px;
+        }
+
+        .stock-price {
+            font-size: 24px;
+            font-weight: 700;
+            color: #667eea;
+        }
+
+        .result-card {
+            background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+            padding: 20px;
+            border-radius: 15px;
+            margin-top: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .result-card h3 {
+            font-size: 16px;
+            color: #555;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .result-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.5);
+        }
+
+        .result-row:last-child {
+            border-bottom: none;
+        }
+
+        .result-label {
+            font-weight: 600;
+            color: #555;
+            font-size: 14px;
+        }
+
+        .result-value {
+            font-weight: 700;
+            color: #333;
+            font-size: 16px;
+        }
+
+        .highlight {
+            background: white;
+            padding: 8px 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        @media (max-width: 520px) {
+            body {
+                padding: 10px;
+            }
+
+            .header h1 {
+                font-size: 24px;
+            }
+
+            .content {
+                padding: 20px 15px;
+            }
+
+            input[type="text"],
+            input[type="number"] {
+                font-size: 16px;
+                padding: 12px 14px;
+            }
+        }
+
+        .error-msg {
+            background: #fee;
+            color: #c33;
+            padding: 10px 15px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            font-size: 14px;
+            display: none;
+        }
+
+        .error-msg.show {
+            display: block;
+        }
+    </style>
 </head>
 <body>
-  <div class="wrap">
-    <div class="card">
-      <div class="header">
-        <h1>Kalkulator Saham</h1>
-        <button class="reset" id="resetBtn" type="button">Reset</button>
-      </div>
+    <div class="container">
+        <div class="header">
+            <h1>📈 Stock Calculator</h1>
+            <p>Calculate average stock price</p>
+        </div>
 
-      <div class="section">
-        <div class="section-title">Pembelian Awal</div>
-        <div class="grid">
-          <div>
-            <label for="nominalAwal">Nominal Awal (Rp)</label>
-            <input id="nominalAwal" type="number" inputmode="numeric" min="0" step="1" placeholder="0" />
-          </div>
-          <div>
-            <label for="lotAwal">Lot Awal</label>
-            <input id="lotAwal" type="number" inputmode="numeric" min="0" step="1" placeholder="0" />
-          </div>
-        </div>
-        <div class="output" id="avgAwalBox">
-          <div class="label">AVG Awal</div>
-          <div class="value empty" id="avgAwal">—</div>
-        </div>
-      </div>
+        <div class="content">
+            <div id="errorMsg" class="error-msg"></div>
 
-      <div class="section">
-        <div class="section-title">Pembelian Tambah</div>
-        <div class="grid">
-          <div>
-            <label for="hargaTambah">Harga Tambah (Rp)</label>
-            <input id="hargaTambah" type="number" inputmode="numeric" min="0" step="1" placeholder="0" />
-          </div>
-          <div>
-            <label for="lotTambah">Lot Tambah</label>
-            <input id="lotTambah" type="number" inputmode="numeric" min="0" step="1" placeholder="0" />
-          </div>
-        </div>
-        <div class="output" id="nominalTambahBox">
-          <div class="label">Nominal Tambah</div>
-          <div class="value empty" id="nominalTambah">—</div>
-        </div>
-      </div>
+            <div class="input-group">
+                <label>Stock Code (Optional)</label>
+                <div class="input-row">
+                    <div class="input-field">
+                        <input type="text" id="stockCode" placeholder="e.g. BBCA" maxlength="4" style="text-transform: uppercase;">
+                    </div>
+                    <button class="search-btn" id="searchBtn" title="Get current price">🔍</button>
+                </div>
+            </div>
 
-      <div class="section">
-        <div class="section-title">Hasil Akhir</div>
-        <div class="result">
-          <div class="result-row">
-            <div class="result-label">Nominal Akhir</div>
-            <div class="result-value" id="nominalAkhir">Rp 0</div>
-          </div>
-          <div class="result-row">
-            <div class="result-label">Lot Akhir</div>
-            <div class="result-value" id="lotAkhir">0 lot</div>
-          </div>
-          <div class="result-row">
-            <div class="result-label">AVG Akhir</div>
-            <div class="result-value" id="avgAkhir">Rp 0</div>
-          </div>
+            <div id="stockInfo" class="stock-info">
+                <div class="stock-name" id="stockName"></div>
+                <div class="stock-price" id="stockPrice"></div>
+            </div>
+
+            <div class="input-group">
+                <label>Initial Purchase</label>
+                <div class="input-row">
+                    <div class="input-field">
+                        <input type="number" id="initialPrice" placeholder="Price per share" min="0" step="1">
+                    </div>
+                    <div class="input-field">
+                        <input type="number" id="initialShares" placeholder="Shares" min="0" step="1">
+                    </div>
+                </div>
+            </div>
+
+            <div class="input-group">
+                <label>Additional Purchase</label>
+                <div class="input-row">
+                    <div class="input-field">
+                        <input type="number" id="addPrice" placeholder="Price per share" min="0" step="1">
+                    </div>
+                    <div class="input-field">
+                        <input type="number" id="addShares" placeholder="Shares" min="0" step="1">
+                    </div>
+                </div>
+            </div>
+
+            <div class="result-card">
+                <h3>Results</h3>
+                <div class="result-row">
+                    <span class="result-label">Total Shares</span>
+                    <span class="result-value highlight" id="totalShares">0</span>
+                </div>
+                <div class="result-row">
+                    <span class="result-label">Total Cost</span>
+                    <span class="result-value highlight" id="totalCost">$0</span>
+                </div>
+                <div class="result-row">
+                    <span class="result-label">Average Price</span>
+                    <span class="result-value highlight" id="avgPrice">$0</span>
+                </div>
+            </div>
         </div>
-      </div>
     </div>
-  </div>
 
-  <script>
-    const nominalAwal = document.getElementById('nominalAwal');
-    const lotAwal = document.getElementById('lotAwal');
-    const hargaTambah = document.getElementById('hargaTambah');
-    const lotTambah = document.getElementById('lotTambah');
+    <script>
+        const stockCodeInput = document.getElementById('stockCode');
+        const searchBtn = document.getElementById('searchBtn');
+        const stockInfo = document.getElementById('stockInfo');
+        const stockName = document.getElementById('stockName');
+        const stockPrice = document.getElementById('stockPrice');
+        const errorMsg = document.getElementById('errorMsg');
 
-    const avgAwalEl = document.getElementById('avgAwal');
-    const avgAwalBox = document.getElementById('avgAwalBox');
-    const nominalTambahEl = document.getElementById('nominalTambah');
-    const nominalTambahBox = document.getElementById('nominalTambahBox');
-    const nominalAkhirEl = document.getElementById('nominalAkhir');
-    const lotAkhirEl = document.getElementById('lotAkhir');
-    const avgAkhirEl = document.getElementById('avgAkhir');
-    const resetBtn = document.getElementById('resetBtn');
+        const initialPriceInput = document.getElementById('initialPrice');
+        const initialSharesInput = document.getElementById('initialShares');
+        const addPriceInput = document.getElementById('addPrice');
+        const addSharesInput = document.getElementById('addShares');
 
-    const fmt = (n) => {
-      if (!Number.isFinite(n)) return 'Rp 0';
-      return 'Rp ' + Math.round(n).toLocaleString('id-ID');
-    };
-    const setBox = (box, el, text, filled) => {
-      el.textContent = text;
-      if (filled) {
-        box.classList.remove('empty');
-        el.classList.remove('empty');
-      } else {
-        box.classList.add('empty');
-        el.classList.add('empty');
-      }
-    };
+        const totalSharesEl = document.getElementById('totalShares');
+        const totalCostEl = document.getElementById('totalCost');
+        const avgPriceEl = document.getElementById('avgPrice');
 
-    const calc = () => {
-      const na = parseFloat(nominalAwal.value) || 0;
-      const la = parseFloat(lotAwal.value) || 0;
-      const ht = parseFloat(hargaTambah.value) || 0;
-      const lt = parseFloat(lotTambah.value) || 0;
+        function formatNumber(num) {
+            return num.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+        }
 
-      const lembarAwal = la * 100;
-      const avgA = lembarAwal > 0 ? na / lembarAwal : 0;
+        function formatCurrency(num) {
+            return '$' + formatNumber(num);
+        }
 
-      const lembarTambah = lt * 100;
-      const nomT = ht * lembarTambah;
-      const nomAkhir = na + nomT;
-      const lotAkhir = la + lt;
-      const avgAkhir = (lotAkhir * 100) > 0 ? nomAkhir / (lotAkhir * 100) : 0;
+        function showError(message) {
+            errorMsg.textContent = message;
+            errorMsg.classList.add('show');
+            setTimeout(() => {
+                errorMsg.classList.remove('show');
+            }, 3000);
+        }
 
-      const hasAwal = nominalAwal.value !== '' && lotAwal.value !== '';
-      const hasTambah = hargaTambah.value !== '' && lotTambah.value !== '';
+        async function getStockPrice(symbol) {
+            try {
+                // Using Yahoo Finance API (free, no key required)
+                const response = await fetch(`https://query1.finance.yahoo.com/v8/finance/chart/${symbol}?interval=1d&range=1d`);
+                
+                if (!response.ok) {
+                    throw new Error('Stock not found');
+                }
 
-      setBox(avgAwalBox, avgAwalEl, hasAwal && avgA > 0 ? fmt(avgA) : '—', hasAwal && avgA > 0);
-      setBox(nominalTambahBox, nominalTambahEl, hasTambah && nomT > 0 ? fmt(nomT) : '—', hasTambah && nomT > 0);
+                const data = await response.json();
+                const result = data.chart.result[0];
+                
+                if (!result) {
+                    throw new Error('Stock not found');
+                }
 
-      nominalAkhirEl.textContent = fmt(nomAkhir);
-      lotAkhirEl.textContent = lotAkhir + ' lot';
-      avgAkhirEl.textContent = fmt(avgAkhir);
-    };
+                const meta = result.meta;
+                const name = meta.longName || meta.shortName || symbol.toUpperCase();
+                const price = meta.regularMarketPrice || meta.previousClose;
 
-    const reset = () => {
-      [nominalAwal, lotAwal, hargaTambah, lotTambah].forEach((el) => { el.value = ''; });
-      calc();
-    };
+                stockName.textContent = `${name} (${symbol.toUpperCase()})`;
+                stockPrice.textContent = formatCurrency(price);
+                stockInfo.classList.add('show');
 
-    [nominalAwal, lotAwal, hargaTambah, lotTambah].forEach((el) => el.addEventListener('input', calc));
-    resetBtn.addEventListener('click', reset);
-  </script>
+                // Auto-fill initial price input
+                initialPriceInput.value = price;
+                calculate();
+            } catch (error) {
+                showError(`❌ Unable to fetch price for "${symbol.toUpperCase()}". Please enter manually.`);
+                stockInfo.classList.remove('show');
+            }
+        }
+
+        function calculate() {
+            const initialPrice = parseFloat(initialPriceInput.value) || 0;
+            const initialShares = parseFloat(initialSharesInput.value) || 0;
+            const addPrice = parseFloat(addPriceInput.value) || 0;
+            const addShares = parseFloat(addSharesInput.value) || 0;
+
+            const totalShares = initialShares + addShares;
+            const totalCost = (initialPrice * initialShares) + (addPrice * addShares);
+            const avgPrice = totalShares > 0 ? totalCost / totalShares : 0;
+
+            totalSharesEl.textContent = totalShares.toLocaleString('en-US');
+            totalCostEl.textContent = formatCurrency(totalCost);
+            avgPriceEl.textContent = formatCurrency(avgPrice);
+        }
+
+        searchBtn.addEventListener('click', () => {
+            const symbol = stockCodeInput.value.trim();
+            if (symbol) {
+                getStockPrice(symbol);
+            } else {
+                showError('Please enter a stock code');
+            }
+        });
+
+        stockCodeInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                const symbol = stockCodeInput.value.trim();
+                if (symbol) {
+                    getStockPrice(symbol);
+                }
+            }
+        });
+
+        [initialPriceInput, initialSharesInput, addPriceInput, addSharesInput].forEach(input => {
+            input.addEventListener('input', calculate);
+        });
+    </script>
 </body>
 </html>
